@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="js/leaflet/leaflet.css"/>
     <script src="js/leaflet/leaflet.js" ></script>
+    <script src="js/leaflet-corridor.js" ></script>
 
 	<script src="data/naturereserve.js" ></script>
 	<script src="data/circles.js" ></script>
@@ -31,6 +32,13 @@
 	</style>
 
 	<style>body { padding: 0; margin: 0; } #map { height: 100%; width: 100vw; }</style>
+
+	    <style> 
+      .route-corridor {
+        stroke: rgb(255, 0, 0);
+        stroke-opacity: 0.5;
+      }
+    </style>
 </head>
 <body>
 
@@ -64,14 +72,34 @@
         "fillOpacity": 0
 	};
 
-// L.geoJSON(myLines, {
-//     style: myStyle
-// }).addTo(map);
+		var firestyle = {
+        "weight": 3,
+        "opacity": 0.75,
+        "color": '#ff3322',
+        // "dashArray": '5',
+        "fillOpacity": 0
+	};
 
 	var reservelayer = L.geoJSON(reserve, {style: reservestyle} ).addTo(map);
 	var circleslayer = L.geoJSON(circles, {style: circlesstyle} ).addTo(map);
 	var zoneslayer = L.geoJSON(zones, {style: zonesstyle} ).addTo(map);
+	var firelayer = L.geoJSON(fire, {style: firestyle} ).addTo(map);
 	// baseLayer.addData(circles);
+
+	// var corridor = L.corridor(fire.coordinates, 5);
+	// map.addLayer(corridor);
+
+    var options = { 
+      corridor: 5,
+      className: 'route-corridor'
+    };
+
+	//Loop through fire features and add a corridor for all coordinates
+	for (var i = 0; i < fire.features.length; i++) {
+		// console.log(fire.features[i].type + i);
+		var coordinates = fire.features[i].geometry.coordinates;
+		map.addLayer(L.corridor(coordinates, options));
+	}
 
 	var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 20,
