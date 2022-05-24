@@ -9,8 +9,13 @@
 	
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 
-    <link rel="stylesheet" href="js/leaflet/leaflet.css" crossorigin=""/>
-    <script src="js/leaflet/leaflet.js" crossorigin=""></script>
+    <link rel="stylesheet" href="js/leaflet/leaflet.css"/>
+    <script src="js/leaflet/leaflet.js" ></script>
+
+	<script src="data/naturereserve.js" ></script>
+	<script src="data/circles.js" ></script>
+	<script src="data/fire.js" ></script>
+	<script src="data/zones.js" ></script>
 
 	<style>
 		html, body {
@@ -33,16 +38,79 @@
 
 <script>
 	// var map = L.map('map').fitWorld();
-	var map = L.map('map').setView([57.621816, 14.925924], 16);
+	var map = L.map('map', { zoomControl: false }).setView([57.621816, 14.925924], 17);
+
+	var reservestyle = {
+		"fillColor": '#E31A1C',
+        "weight": 1,
+        "opacity": 1,
+        "color": '#ff7800',
+        "dashArray": '5',
+        "fillOpacity": 0
+	};
+
+		var circlesstyle = {
+        "weight": 1,
+        "opacity": 1,
+        "color": '#ffff00',
+        "fillOpacity": 0
+	};
+
+		var zonesstyle = {
+        "weight": 2,
+        "opacity": 0.75,
+        "color": '#34cceb',
+        // "dashArray": '5',
+        "fillOpacity": 0
+	};
+
+// L.geoJSON(myLines, {
+//     style: myStyle
+// }).addTo(map);
+
+	var reservelayer = L.geoJSON(reserve, {style: reservestyle} ).addTo(map);
+	var circleslayer = L.geoJSON(circles, {style: circlesstyle} ).addTo(map);
+	var zoneslayer = L.geoJSON(zones, {style: zonesstyle} ).addTo(map);
+	// baseLayer.addData(circles);
 
 	var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 20,
-		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-		id: 'mapbox/streets-v11',
+		attribution: 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		// id: 'mapbox/streets-v11',
+		id: 'mapbox/satellite-v9',
 		tileSize: 512,
 		zoomOffset: -1
 	}).addTo(map);
+
+ 	// function getStyle(feature) 
+	//  {
+    //     switch (feature.name) 
+	// 	{
+    //         case 'circles': return {
+	// 				"weight": 2,
+	// 				"opacity": 1,
+	// 				"color": '#ffff00',
+	// 				// "dashArray": '5',
+	// 				"fillOpacity": 0
+	// 			};
+    //         case 'naturereserve':   return {
+	// 				"fillColor": '#E31A1C',
+	// 				"weight": 1,
+	// 				"opacity": 1,
+	// 				"color": '#ff7800',
+	// 				"dashArray": '5',
+	// 				"fillOpacity": 0
+	// 			};
+	// 		default: return {
+	// 				"fillColor": '#E31A1C',
+	// 				"weight": 1,
+	// 				"opacity": 1,
+	// 				"color": '#ff7800',
+	// 				"dashArray": '5',
+	// 				"fillOpacity": 0
+	// 			};
+    //     }
+	//  }
 
 	// function onLocationFound(e) {
 	// 	var radius = e.accuracy / 2;
