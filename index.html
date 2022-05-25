@@ -13,11 +13,6 @@
     <script src="js/leaflet/leaflet.js" ></script>
     <script src="js/leaflet-corridor.js" ></script>
 
-	<script src="data/naturereserve.js" ></script>
-	<script src="data/circles.js" ></script>
-	<script src="data/fire.js" ></script>
-	<script src="data/zones.js" ></script>
-
 	<style>
 		html, body {
 			height: 100%;
@@ -32,134 +27,11 @@
 	</style>
 
 	<style>body { padding: 0; margin: 0; } #map { height: 100%; width: 100vw; }</style>
-
-	    <style> 
-      .route-corridor {
-        stroke: rgb(255, 0, 0);
-        stroke-opacity: 0.5;
-      }
-    </style>
 </head>
 <body>
 
 <div id='map'></div>
 
-<script>
-	// var map = L.map('map').fitWorld();
-	var map = L.map('map', { zoomControl: false }).setView([57.621816, 14.925924], 17);
-
-	var reservestyle = {
-		"fillColor": '#E31A1C',
-        "weight": 1,
-        "opacity": 1,
-        "color": '#ff7800',
-        "dashArray": '5',
-        "fillOpacity": 0
-	};
-
-		var circlesstyle = {
-        "weight": 1,
-        "opacity": 1,
-        "color": '#ffff00',
-        "fillOpacity": 0
-	};
-
-		var zonesstyle = {
-        "weight": 2,
-        "opacity": 0.75,
-        "color": '#34cceb',
-        // "dashArray": '5',
-        "fillOpacity": 0
-	};
-
-		var firestyle = {
-        "weight": 3,
-        "opacity": 0.75,
-        "color": '#ff3322',
-        // "dashArray": '5',
-        "fillOpacity": 0
-	};
-
-	var reservelayer = L.geoJSON(reserve, {style: reservestyle} ).addTo(map);
-	var circleslayer = L.geoJSON(circles, {style: circlesstyle} ).addTo(map);
-	var zoneslayer = L.geoJSON(zones, {style: zonesstyle} ).addTo(map);
-	var firelayer = L.geoJSON(fire, {style: firestyle} ).addTo(map);
-	// baseLayer.addData(circles);
-
-	// var corridor = L.corridor(fire.coordinates, 5);
-	// map.addLayer(corridor);
-
-    var options = { 
-      corridor: 5,
-      className: 'route-corridor'
-    };
-
-	//Loop through fire features and add a corridor for all coordinates
-	for (var i = 0; i < fire.features.length; i++) {
-		// console.log(fire.features[i].type + i);
-		var coordinates = fire.features[i].geometry.coordinates;
-		map.addLayer(L.corridor(coordinates, options));
-	}
-
-	var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-		maxZoom: 20,
-		attribution: 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-		// id: 'mapbox/streets-v11',
-		id: 'mapbox/satellite-v9',
-		tileSize: 512,
-		zoomOffset: -1
-	}).addTo(map);
-
- 	// function getStyle(feature) 
-	//  {
-    //     switch (feature.name) 
-	// 	{
-    //         case 'circles': return {
-	// 				"weight": 2,
-	// 				"opacity": 1,
-	// 				"color": '#ffff00',
-	// 				// "dashArray": '5',
-	// 				"fillOpacity": 0
-	// 			};
-    //         case 'naturereserve':   return {
-	// 				"fillColor": '#E31A1C',
-	// 				"weight": 1,
-	// 				"opacity": 1,
-	// 				"color": '#ff7800',
-	// 				"dashArray": '5',
-	// 				"fillOpacity": 0
-	// 			};
-	// 		default: return {
-	// 				"fillColor": '#E31A1C',
-	// 				"weight": 1,
-	// 				"opacity": 1,
-	// 				"color": '#ff7800',
-	// 				"dashArray": '5',
-	// 				"fillOpacity": 0
-	// 			};
-    //     }
-	//  }
-
-	// function onLocationFound(e) {
-	// 	var radius = e.accuracy / 2;
-
-	// 	var locationMarker = L.marker(e.latlng).addTo(map)
-	// 		.bindPopup('You are within ' + radius + ' meters from this point').openPopup();
-
-	// 	var locationCircle = L.circle(e.latlng, radius).addTo(map);
-	// }
-
-	// function onLocationError(e) {
-	// 	alert(e.message);
-	// }
-
-	// map.on('locationfound', onLocationFound);
-	// map.on('locationerror', onLocationError);
-
-	// map.locate({setView: true, maxZoom: 16});
-</script>
-
-
-
+<script src="js/map.js" ></script>
 </body>
 </html>
